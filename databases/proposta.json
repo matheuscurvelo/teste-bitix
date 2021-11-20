@@ -21,35 +21,14 @@
         ],
         "beneficiarios": [
             {
-                "nome": "joao",
-                "idade": 30,
-                "quantidade": 4,
-                "registro": "reg1",
-                "preco": 11
-            },
-            {
-                "nome": "drama",
-                "idade": 3,
-                "registro": "reg1",
-                "quantidade": 1,
-                "preco": 10
-            },
-            {
-                "nome": "marcos de deus",
-                "idade": 30,
-                "quantidade": 4,
-                "registro": "reg1",
-                "preco": 11
-            },
-            {
-                "nome": "marcos de deuss",
+                "nome": "matheus",
                 "idade": 30,
                 "quantidade": 4,
                 "registro": "reg1",
                 "preco": 11
             }
         ],
-        "preco_total": 43
+        "preco_total": 11
     },
     {
         "registro": "reg2",

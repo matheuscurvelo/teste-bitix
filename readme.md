@@ -3,6 +3,9 @@
 ## plano
 
 `GET | /api/plano`
+    
+- Preenche o arquivo proposta.json ao responder
+
 
 `GET | /api/plano/[codigo]`
 
@@ -29,3 +32,11 @@
     - para que seja possivel ser efetuado o cadastro do beneficiario:
         - O registro escolhido deve existir no plano
         - A quantidade informada deve ser compatível com o campo "mínimo_vidas" do registro do plano escolhido
+        - O nome deve ser único
+
+
+# front-end
+
+`/plano`
+
+`/beneficiario`
