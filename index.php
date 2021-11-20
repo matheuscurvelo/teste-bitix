@@ -16,5 +16,7 @@ if (isset($_GET['url'])) {
     }
 
 
+} else {
+    require_once 'public_html/index.php';
 }
 
