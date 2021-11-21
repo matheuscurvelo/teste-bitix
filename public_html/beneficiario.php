@@ -49,8 +49,8 @@
                     </thead>
                     <tbody>
                         <template id="linha">
-                            <tr class="vizualizar">
-                                <td class="nome">1</td>
+                            <tr>
+                                <td><a type="button" class="text-white bg-danger rounded mr-2 px-1 remover"><i class="fa fa-times"></i></a><a type="button" class="nome editar text-primary">1</a></td>
                                 <td class="idade">2</td>
                                 <td class="registro">3</td>
                                 <td class="quantidade">4</td>
@@ -68,7 +68,7 @@
         <div class="modal-dialog" role="document">
             <form method="POST" class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="modo">Vizualizar</h5>
+                    <h5 class="modal-title" id="modo"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -122,20 +122,15 @@
             $('#modal').modal('show');
             atualizarPlanos();
 
-            $('form:eq(0) input, form:eq(0) select, form:eq(0) button[type="submit"]').attr('disabled',false);
-            $('form:eq(0) :submit').show();
-
             document.getElementsByTagName('form')[0].reset();
+            $('#nome').data('search','');
         });
 
-        //vizualizar
-        $(document).on('click', '.vizualizar', function(){
-            $('#modo').html('Vizualizar');
+        //editar
+        $(document).on('click', '.editar', function(){
+            $('#modo').html('Editar');
             atualizarPlanos();
             
-            $('form:eq(0) input, form:eq(0) select, form:eq(0) button[type="submit"]').attr('disabled',true);
-            $('form:eq(0) :submit').hide();
-
             $.ajax({
                 type: "GET",
                 url: "/api/beneficiario/" + $(this).data('search'),
@@ -144,7 +139,7 @@
                     response = response.dados;
                     $('#modal').modal('show');
 
-                    $('#nome').val(response.nome);
+                    $('#nome').val(response.nome).data('search',response.nome);
                     $('#idade').val(response.idade);
                     $('#registro').val(response.registro);
                     $('#quantidade').val(response.quantidade);
@@ -159,22 +154,66 @@
             });
         });
 
+        //remover
+        $(document).on('click', '.remover', function(){
+            if (confirm('Deseja Remover este beneficiário')) {
+
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/beneficiario/" + $(this).data('search'),
+                    dataType: "json",
+                    success: function(response) {
+                        atualizarTabela();
+                        alert(response.message);
+                    },
+                    error: function (response) {
+                        response = response.responseJSON;
+                        alert(response.message);
+
+                    },
+                });
+            }
+        });
+
         $('form:eq(0)').submit(function (e) { 
             e.preventDefault();
 
-            $.ajax({
-                type: "POST",
-                url: "/api/beneficiario",
-                data: $(this).serialize(),
-                dataType: "json",
-                success: function (response) {
-                    alert(response.message);
-                    atualizarTabela()
-                },
-                error: function (response) {
-                    alert(response.responseJSON.message);
-                },
-            });            
+            if ($('#nome').data('search') == '') {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/beneficiario",
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response.message);
+                        atualizarTabela();
+                        document.getElementsByTagName('form')[0].reset();
+
+                    },
+                    error: function (response) {
+                        alert(response.responseJSON.message);
+                    },
+                });       
+
+            } else {
+
+                $.ajax({
+                    type: "PUT",
+                    url: "/api/beneficiario/" + $('#nome').data('search'),
+                    data: $(this).serialize(),
+                    dataType: "json",
+                    success: function (response) {
+                        alert(response.message);
+                        atualizarTabela();
+                    },
+                    error: function (response) {
+                        alert(response.responseJSON.message);
+                    },
+                });       
+
+            }
+                 
         });
 
         function atualizarTabela() {
@@ -187,8 +226,8 @@
 
                     $.map(response.dados, function(element) {
                         $('#table tbody').append($('#linha').html());
-                        $('#table tbody tr:last()').data('search',element.nome);
-                        $('#table tbody .nome:last()').html(element.nome);
+                        $('#table tbody .remover:last()').data('search',element.nome);
+                        $('#table tbody .nome:last()').html(element.nome).data('search',element.nome);
                         $('#table tbody .idade:last()').html(element.idade);
                         $('#table tbody .registro:last()').html(element.registro);
                         $('#table tbody .quantidade:last()').html(element.quantidade);

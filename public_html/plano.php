@@ -125,48 +125,6 @@
         </div>
     </div>
 
-    <!-- Modal -->
-    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <form method="POST" class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modo">Vizualizar</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="form-group col-md-6">
-                            <label for="">Nome</label>
-                            <input type="text" name="nome" id="nome" class="form-control" required>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="">Idade</label>
-                            <input type="number" name="idade" id="idade" class="form-control" required>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="">Registro</label>
-                            <select name="registro" id="registro" class="form-control" required>
-                                <option selected disabled>Selecione um registro</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group col-md-6">
-                            <label for="">Quantidade</label>
-                            <input type="number" name="quantidade" id="quantidade" class="form-control" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-times"></i> Fechar</button>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
@@ -199,7 +157,6 @@
                     $('#tableBeneficiario tbody tr').remove();
 
                     $.map(response.precos, function(element) {
-                        console.log(element);
                         $('#tablePreco tbody').append($('#linhaPreco').html());
                         $('#tablePreco tbody .minimo_vidas:last()').html(element.minimo_vidas);
                         $('#tablePreco tbody .faixa_1:last()').html(element.faixa1);
@@ -208,8 +165,9 @@
                     });
 
                     $.map(response.beneficiarios, function(element) {
+                        console.log(element);
                         $('#tableBeneficiario tbody').append($('#linhaBeneficiario').html());
-                        $('#tableBeneficiario tbody .nome:last()').html(element.nome);
+                        $('#tableBeneficiario tbody .nomeBeneficiario:last()').html(element.nome);
                         $('#tableBeneficiario tbody .idade:last()').html(element.idade);
                         $('#tableBeneficiario tbody .registro:last()').html(element.registro);
                         $('#tableBeneficiario tbody .quantidade:last()').html(element.quantidade);

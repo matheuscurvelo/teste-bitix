@@ -27,15 +27,14 @@ class Beneficiario
 
         foreach ($beneficiarios as $beneficiario) {
             
-            if ($beneficiario->nome === strtolower($nome)) {
+            if ($beneficiario->nome === mb_strtoupper($nome)) {
 
                 return ['code'=>200,'dados'=>$beneficiario];
-                break;
             }
 
         }
 
-        return ['code'=>404,'message'=>'Nome não encontrado'];
+        return ['code'=>404,'message'=>'Beneficiário não encontrado'];
 
     }
 
@@ -45,12 +44,70 @@ class Beneficiario
         $beneficiarios = json_decode($beneficiarios);
 
         array_push($beneficiarios, $post);
-        //echo json_encode($beneficiarios);
 
         $f = fopen('databases/beneficiarios.json','w');
         fwrite($f, json_encode($beneficiarios));
         fclose($f);
 
         return ['code'=>200,'message'=>'Beneficiario inserido com sucesso'];
+    }
+
+    public static function update(string $nome, array $put)
+    {
+        $beneficiarios = file_get_contents("databases/beneficiarios.json");
+        $beneficiarios = json_decode($beneficiarios);
+
+        foreach ($beneficiarios as $key => $beneficiario) {
+            
+            if ($beneficiario->nome === mb_strtoupper($nome)) {
+
+                $beneficiario->nome = $put['nome'];
+                $beneficiario->idade = $put['idade'];
+                $beneficiario->registro = $put['registro'];
+                $beneficiario->quantidade = $put['quantidade'];
+
+                $f = fopen('databases/beneficiarios.json','w');
+                fwrite($f, json_encode($beneficiarios));
+                fclose($f);
+
+                return ['code'=>200,'message'=>'Beneficiario alterado com sucesso'];
+            }
+
+        }
+
+        return ['code'=>404,'message'=>'Beneficiário inexistente'];
+
+    }
+
+    public static function delete(string $nome)
+    {
+        $beneficiarios = file_get_contents("databases/beneficiarios.json");
+        $beneficiarios = json_decode($beneficiarios);
+
+        $copy = [];
+
+        foreach ($beneficiarios as $key => $beneficiario) {
+            
+            if ($beneficiario->nome !== mb_strtoupper($nome)) {
+
+                array_push($copy, $beneficiario);
+
+            } else {
+                $encontrado = true;
+            }
+
+        }
+
+        $f = fopen('databases/beneficiarios.json','w');
+        fwrite($f, json_encode($copy));
+        fclose($f);
+
+        if (isset ($encontrado)) {
+            return ['code'=>200,'message'=>'Beneficiario removido com sucesso'];
+        } else {
+            return ['code'=>404,'message'=>'Beneficiário inexistente'];
+        }
+
+
     }
 }
