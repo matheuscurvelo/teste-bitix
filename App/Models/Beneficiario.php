@@ -65,6 +65,7 @@ class Beneficiario
                 $beneficiario->idade = $put['idade'];
                 $beneficiario->registro = $put['registro'];
                 $beneficiario->quantidade = $put['quantidade'];
+                $beneficiario->preco = $put['preco'];
 
                 $f = fopen('databases/beneficiarios.json','w');
                 fwrite($f, json_encode($beneficiarios));

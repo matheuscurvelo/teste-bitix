@@ -44,7 +44,7 @@
                             <th>Idade</th>
                             <th>Registro</th>
                             <th>Quantidade</th>
-
+                            <th>Preço</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -54,6 +54,7 @@
                                 <td class="idade">2</td>
                                 <td class="registro">3</td>
                                 <td class="quantidade">4</td>
+                                <td class="preco">4</td>
                             </tr>
                         </template>
                     </tbody>
@@ -231,6 +232,7 @@
                         $('#table tbody .idade:last()').html(element.idade);
                         $('#table tbody .registro:last()').html(element.registro);
                         $('#table tbody .quantidade:last()').html(element.quantidade);
+                        $('#table tbody .preco:last()').html(element.preco);
                     });
                 }
             });
